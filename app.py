@@ -2,17 +2,17 @@ import streamlit as st
 import sys
 import os
 
-# ✅ Allow import from parent directory
+# Allow import from parent directory
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-# ✅ Import SEO logic
+# Import SEO logic
 from core_scraper import seo_analysis, output_data_path
 
-# ✅ Page config
+# Page config
 st.set_page_config(page_title="SEO Brand Analyzer", layout="centered")
 st.title("🔍 Amazon SEO & Brand Analyzer")
 
-# ✅ Custom dark-mode-friendly CSS
+# Custom dark-mode-friendly CSS
 st.markdown("""
     <style>
     html, body, [class*="css"]  {
@@ -50,23 +50,23 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# ✅ Input field
+# Input field
 url = st.text_input("Enter Amazon Search URL:", "https://www.amazon.in/s?k=smartphones")
 
-# ✅ On click
+# On click
 if st.button("Run SEO Analysis"):
     with st.spinner("Analyzing website..."):
         try:
             seo_analysis(url, st=st)  # Pass Streamlit for UI messages
 
-            st.success("✅ Analysis complete!")
+            st.success("Analysis complete!")
 
-            # ✅ Display result charts
-            st.subheader("📊 Analysis Charts")
+            # Display result charts
+            st.subheader("Analysis Charts")
             for title, path in {
-                "📈 Brand Distribution": output_data_path["brand_chart"],
-                "🔠 Keyword Frequency": output_data_path["keyword_chart"],
-                "💰 Top Product Prices": output_data_path["price_chart"]
+                "Brand Distribution": output_data_path["brand_chart"],
+                "Keyword Frequency": output_data_path["keyword_chart"],
+                "Top Product Prices": output_data_path["price_chart"]
             }.items():
                 if os.path.exists(path):
                     st.markdown(f"**{title}**")
@@ -74,7 +74,7 @@ if st.button("Run SEO Analysis"):
                 else:
                     st.warning(f"⚠️ {title} not available.")
 
-            # ✅ Download buttons
+            # Download buttons
             st.subheader("📥 Download Reports")
             for label, path in {
                 "Excel Report": output_data_path["excel"],
@@ -84,7 +84,7 @@ if st.button("Run SEO Analysis"):
                     with open(path, "rb") as f:
                         st.download_button(label=f"Download {label}", data=f, file_name=os.path.basename(path))
                 else:
-                    st.warning(f"⚠️ {label} not available.")
+                    st.warning(f"{label} not available.")
 
         except Exception as e:
-            st.error(f"❌ Error: {e}")
+            st.error(f"Error: {e}")
